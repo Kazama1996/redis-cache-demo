@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: concurrency-learning
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:concurrency_learning}?useSSL=false&serverTimezone=Asia/Taipei&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: ${DB_POOL_MAX_SIZE:10}
+      minimum-idle: ${DB_POOL_MIN_IDLE:5}
+      connection-timeout: ${DB_CONNECTION_TIMEOUT:30000}
+      idle-timeout: ${DB_IDLE_TIMEOUT:600000}
+      max-lifetime: ${DB_MAX_LIFETIME:1800000}
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: ${JPA_DDL_AUTO:update}
+    show-sql: ${JPA_SHOW_SQL:true}
+    properties:
+      hibernate:
+        format_sql: ${JPA_FORMAT_SQL:true}
+        use_sql_comments: true
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+common:
+  snowflake:
+    worker-id: ${WORKER_ID:1}
+    datacenter-id: ${DATACENTER_ID:1}
+  redis:
+    address: redis://${REDIS_HOST}:${REDIS_PORT}
+    password: ${REDIS_PASSWORD}
+    database: ${REDIS_DATABASE:0}
+    connection-pool-size: ${REDISSON_POOL_SIZE:64}
+    connection-minimum-idle-size: ${REDISSON_MIN_IDLE:10}
+
+
+logging:
+  level:
+    root: ${LOG_LEVEL_ROOT:INFO}
+    com.kazama: ${LOG_LEVEL_APP:DEBUG}
+    org.hibernate.SQL: ${LOG_LEVEL_SQL:DEBUG}
+    org.hibernate.type.descriptor.sql.BasicBinder: ${LOG_LEVEL_SQL_BINDER:TRACE}
+    org.redisson: ${LOG_LEVEL_REDISSON:DEBUG}
+
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: ${SERVER_CONTEXT_PATH:/}
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
