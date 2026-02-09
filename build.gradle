@@ -18,6 +18,9 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+	all{
+		resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+	}
 }
 
 repositories {
@@ -34,6 +37,12 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'com.kazama:common-spring-boot-starter:1.0.0-SNAPSHOT'
+	implementation('com.github.javafaker:javafaker:1.0.2') {
+		exclude group: 'org.yaml', module: 'snakeyaml'
+	}
+
+	// ✅ 改成 2.2 版本（或者直接移除，讓 Spring Boot 管理）
+	implementation 'org.yaml:snakeyaml:2.2'
 }
 
 tasks.named('test') {
